@@ -7,10 +7,16 @@ using namespace std;
 using namespace leo::json;
 
 int main() {
-    Json v1;
-    Json v2 = true;
-    Json v3 = 123;
-    Json v4 = 3.14;
-    Json v5 = "hello";
+    Json arr;
+    arr[0] = true;
+    arr[1] = 123;
+
+    arr.append(1.23);
+    arr.append("hello");
+
+    bool b = arr[0];
+    int i = arr[1];
+    double d = arr[2];
+    const string &s = arr[3];
     return 0;
 }

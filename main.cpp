@@ -2,21 +2,52 @@
 // Created by Leo on 2023/4/5.
 //
 #include "json/json.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <stdexcept>
+#include <cstdlib>
+#include <typeinfo>
+#include <ctime>
+#include <unistd.h>
 
 using namespace std;
 using namespace leo::json;
 
 int main() {
-    Json arr;
-    arr[0] = true;
-    arr[1] = 123;
+    ifstream ifs("../test.json");
+    if (!ifs.is_open()) {
+        cout << "open file failed" << endl;
+        return 0;
+    }
+    stringstream ss;
+    ss << ifs.rdbuf();
+    const string &str = ss.str();
 
-    arr.append(1.23);
-    arr.append("hello");
+    Json v;
+    v.parse(str);
+    Json label = v["data"];
+    Json current = v["data"]["officialVerify"]["officialVerify"];
+    label.printType();
+    current.printType();
+    cout << v.str();
 
-    bool b = arr[0];
-    int i = arr[1];
-    double d = arr[2];
-    const string &s = arr[3];
-    return 0;
+
+    // const string &str = "-1.23";
+    // Json v;
+    // v.parse(str);
+    // v.printType();
+    // return 0;
+
+    // try {
+    //     const string &str = R"({"data": {"isLogin": true, "level_info": {"current_level": 1}}})";
+    //     // const string &str = R"(["a",1,1.23])";
+    //     Json v;
+    //     v.parse(str);
+    //     bool a = v["data"]["isLogin"];
+    //     cout << a;
+    // } catch (const std::exception &e) {
+    //     std::cerr << "Exception caught: " << e.what() << std::endl;
+    // }
+    // return 0;
 }
